@@ -1,12 +1,7 @@
 /*
- * ctrKeyGen.c
- * 8/28/2014
- * Coded by Relys
  * Based on makerom by 3dsguy (structs and ctr method ripped from there)
- * Used for generating custom file format to be used with xor generator on 3ds coded by sbJFn5r.
  * xor generator based off of base libraries provided by Kane49. Interaction with the AES engine based off of crypto libs coded by megazig.
  * Special thanks to sm for providing file system libs.
- * xor generator coded by sbJFn5r, Relys
  */
  
  
