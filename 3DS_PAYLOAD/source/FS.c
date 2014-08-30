@@ -120,7 +120,7 @@ void FileWrite(u32 file_handle, void* write_buf, u32 size)
 	);
 }
 
-void FileWriteOffset(u32 file_handle, void* write_buf, u32 size, u32 offset)
+__attribute__((always_inline)) void FileWriteOffset(u32 file_handle, void* write_buf, u32 size, u32 offset)
 {
 	asm(
 		"f_write_call   = 0x3C\n\t"
@@ -133,7 +133,8 @@ void FileWriteOffset(u32 file_handle, void* write_buf, u32 size, u32 offset)
 		"    STR     R2, [SP,#0x8]\n\t"
 		"    LDR     R2, =0x8094490\n\t"
 		"    STR     R2, [R3]\n\t"
-		"    STR     R1, [R3,#4]\n\t"
+		"    MOV     R5, R1\n\t" //??
+		"    STR     R5, [R3,#4]\n\t" //??
 		"    STR     R3, [SP,#0x0]\n\t"
 		"    MOV     R1, #0\n\t"
 		"    STR     R1, [SP,#0x4]\n\t"

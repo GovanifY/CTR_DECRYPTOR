@@ -39,7 +39,7 @@ void * memset(void *ptr, int c, size_t size)
 * GetSystemTick and sleep functions by xerpi
 *
 */
-uint64_t GetSystemTick(void)
+/*uint64_t GetSystemTick(void)
 {
     register unsigned long lo64 asm ("r0");
     register unsigned long hi64 asm ("r1");
@@ -73,4 +73,4 @@ void sleep(uint64_t s)
     uint64_t ticks = s * TICKS_PER_SEC;
     uint64_t start = GetSystemTick();
     while ((GetSystemTick() - start) < ticks); 
-}
+}*/

@@ -1,10 +1,10 @@
 #include "memory.h"
 
 
-void write_word(u32 address, u32 word){
+/*void write_word(u32 address, u32 word){
   u32 *a = (u32*) address;
   *a = word;
-}
+}*/
 
 void write_color(u32 address, u8 r, u8 g, u8 b){
   write_byte(address, b);
@@ -17,20 +17,20 @@ void write_byte(u32 address, u8 byte){
   *a = byte;
 }
 
-u8 read_byte(u32 address){
+/*u8 read_byte(u32 address){
   return *(u8*)address;
 }
 
 u32 read_word(u32 address){
   return *(u32*)address;
-}
+}*/
 
 char nibble_to_readable(u8 nibble){
   if (nibble < 10) return nibble+48;
   return nibble+55;
 }
 
-u32 u16_to_string(u16 sh, char* ret, int max_len){
+/*u32 u16_to_string(u16 sh, char* ret, int max_len){
   if (max_len < 5) return;
   byte_to_string((sh & 0xFF00) >> 8, ret, max_len);
   byte_to_string((sh & 0x00FF), ret+2, max_len);
@@ -60,7 +60,7 @@ u32 byte_to_bit_string(u8 byte, char* ret, int max_len){
     
   ret[8] = 0;
   return 0;
-}
+}*/
 
 u32 byte_to_string(u8 byte, char* ret, int max_len){
   if (max_len < 3) return;

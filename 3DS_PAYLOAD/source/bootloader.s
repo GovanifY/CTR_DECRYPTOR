@@ -12,7 +12,11 @@ _Reset:
   B . /* FIQ */
 
 Reset_Handler:
-  //LDR sp, =stack_top
+ldr r0, =0xFFFF8001
+ldr r1, =0x080C3EE0
+mov r2, #0x2000
+svc 0x54
+
   BL c_entry
   B .
 

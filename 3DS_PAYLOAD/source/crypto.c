@@ -32,13 +32,6 @@
 #define AES_CNT_FLUSH_READ    0x00000800
 #define AES_CNT_FLUSH_WRITE   0x00000400
 
-void decrypt(void* key, void* iv, void* inbuf, void* outbuf, size_t size)
-{
-	setup_aeskey(0x2C, AES_BIG_INPUT|AES_NORMAL_INPUT, key);
-	use_aeskey(0x2C);
-	aes_decrypt(inbuf, outbuf, iv, size / AES_BLOCK_SIZE);
-}
-
 void setup_aeskey(uint32_t keyno, int value, void* key)
 {
 	volatile uint32_t* aes_regs[] =

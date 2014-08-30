@@ -1,3 +1,9 @@
+/*
+ * Based on info from makerom by 3dsguy
+ * Based off of base libraries provided by Kane49. Interaction with the AES engine based off of crypto libs coded by megazig.
+ * Special thanks to sm for providing file system libs.
+ */
+
 #define NDS
 #define ENABLEWR
 #include "main.h"
@@ -11,14 +17,14 @@
 #include "crypto.h"
 #include "FS.h"
 
+static u32 runOnce = 1;
+
 void createpad(void *counter, void *keyY, void *filename, u32 megabytes, u8 padnum){
 	u8 ctr[16];
-	u8 buffer[4*1024];
 	u8 zeroed_inp[16];
-	
 	memcpy( ctr, counter, 16);
 
-	#define BLOCK_SIZE 0x1000 //only 4KB, unless we can find a larger open spot in ARM9 mem.
+	#define BLOCK_SIZE 0x20000
 	#define AES_BIG_INPUT      1
 	#define AES_NORMAL_INPUT   4
 
@@ -27,7 +33,6 @@ void createpad(void *counter, void *keyY, void *filename, u32 megabytes, u8 padn
 
 	u32 i = 0;
 	u32 j = 0;
-	u32 t;
 
 	memset( zeroed_inp, 0, 16 );
 
@@ -44,15 +49,15 @@ void createpad(void *counter, void *keyY, void *filename, u32 megabytes, u8 padn
 		for( j=0; j<BLOCK_SIZE; j+=16 )
 		{
 				set_ctr( AES_BIG_INPUT|AES_NORMAL_INPUT, ctr);
-				aes_decrypt( zeroed_inp, (void *)(buffer+j), ctr, 1 );
+				aes_decrypt( zeroed_inp, (void *)(0x208837C0+j), ctr, 1 );
 				add_ctr( ctr, 1);
 		}
-		FileWriteOffset( handle, buffer, BLOCK_SIZE, i );
-
+		
+		FileWriteOffset( handle, (void *)0x208837C0, BLOCK_SIZE, i );
+		
 		if(!(i&0xFFFFF))
 		{
-			t = i;
-			print_u32(t,  100, 210, 255, 0, 0);
+			print_u32(i,  100, 210, 255, 0, 0);
 		}
 	}
 
@@ -61,11 +66,13 @@ void createpad(void *counter, void *keyY, void *filename, u32 megabytes, u8 padn
 }
 
 int main()
-{ 
+{
+	while(!runOnce){};
+	runOnce = 0;
 
 	blank(0,0,400,240);
 
-	u8 ncchinfo[2004]; //enough room for 20 file infos
+	u8 ncchinfo[2004]; //enough room for 8 file infos
 
 	u32 entries[4];
 	u32 handle = FileOpen( L"/ncchinfo.bin");
